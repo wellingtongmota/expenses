@@ -13,8 +13,8 @@ import {
   SidebarRail
 } from "@/components/ui/sidebar"
 import { CircleDollarSign, House, Settings2 } from "lucide-react"
+import Link from "next/link"
 
-// This is sample data.
 const data = {
   user: {
     name: "Wellington G.",
@@ -67,14 +67,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href="/app">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <CircleDollarSign className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-base leading-tight">
                   <span className="truncate font-semibold">Expenses</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
