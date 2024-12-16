@@ -3,14 +3,17 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
 
 const breadcrumbLinks: TBreadcrumb = {
-  page: { title: "Dashboard" }
+  links: [{ title: "Configurações", url: "/app/settings" }],
+  page: { title: "Tema" }
 }
 
-export default function AppPage() {
+export default function ThemePage() {
   return (
     <SidebarInset>
       <AppNavbar breadcrumb={breadcrumbLinks} />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">Dashboard</div>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        Escolha o tema da aplicação
+      </div>
     </SidebarInset>
   )
 }

@@ -45,15 +45,15 @@ const data = {
       items: [
         {
           title: "Geral",
-          url: "#"
+          url: "/app/settings"
         },
         {
           title: "Tema",
-          url: "#"
+          url: "/app/settings/theme"
         },
         {
           title: "Plano",
-          url: "#"
+          url: "/app/settings/billing"
         }
       ]
     }

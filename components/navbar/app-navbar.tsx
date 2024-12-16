@@ -23,7 +23,7 @@ export function AppNavbar({ breadcrumb }: AppNavbarProps) {
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb>
           <BreadcrumbList>
-            {breadcrumb.links.map((link) => (
+            {breadcrumb.links?.map((link) => (
               <div key={link.url} className="flex items-center gap-2">
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink asChild>

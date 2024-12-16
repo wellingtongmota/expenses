@@ -1,5 +1,5 @@
 export type TBreadcrumb = {
-  links: {
+  links?: {
     title: string
     url: string
   }[]

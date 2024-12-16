@@ -2,7 +2,7 @@ import { AppNavbar } from "@/components/navbar/app-navbar"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
 
-const headerLinks: TBreadcrumb = {
+const breadcrumbLinks: TBreadcrumb = {
   links: [{ title: "Início", url: "/app" }],
   page: { title: "Cadastrar despesa" }
 }
@@ -10,7 +10,7 @@ const headerLinks: TBreadcrumb = {
 export default function RegisterExpensePage() {
   return (
     <SidebarInset>
-      <AppNavbar breadcrumb={headerLinks} />
+      <AppNavbar breadcrumb={breadcrumbLinks} />
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         Cadastrar despesa
       </div>
