@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from "@/components/ui/sidebar"
-import { CircleDollarSign, LayoutDashboard, Settings2 } from "lucide-react"
+import { CircleDollarSign, House, Settings2 } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -23,14 +23,18 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Início",
       url: "#",
-      icon: LayoutDashboard,
+      icon: House,
       isActive: true,
       items: [
         {
+          title: "Dashboard",
+          url: "/app"
+        },
+        {
           title: "Cadastrar despesa",
-          url: "#"
+          url: "/app/register-expense"
         }
       ]
     },
