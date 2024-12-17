@@ -13,6 +13,7 @@ import {
   SidebarRail
 } from "@/components/ui/sidebar"
 import { CircleDollarSign, House, Settings2 } from "lucide-react"
+import { Session } from "next-auth"
 import Link from "next/link"
 
 const data = {
@@ -60,7 +61,14 @@ const data = {
   ]
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = {
+  user: Session["user"]
+}
+
+export function AppSidebar({
+  user,
+  ...props
+}: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -68,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/app">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <CircleDollarSign className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-base leading-tight">
@@ -84,7 +92,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
