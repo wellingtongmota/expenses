@@ -3,13 +3,22 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { signIn } from "@/auth"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      action={async (formData) => {
+        "use server"
+
+        await signIn("credentials", formData)
+      }}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Faça login na sua conta</h1>
         <p className="text-balance text-sm text-muted-foreground">
@@ -19,7 +28,13 @@ export function LoginForm({
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="email">E-mail</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+          />
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
@@ -31,7 +46,7 @@ export function LoginForm({
               Esqueceu sua senha?
             </a>
           </div>
-          <Input id="password" type="password" required />
+          <Input id="password" name="password" type="password" required />
         </div>
         <Button type="submit" className="w-full">
           Entrar
