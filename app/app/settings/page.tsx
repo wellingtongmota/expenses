@@ -10,9 +10,7 @@ export default function SettingsPage() {
   return (
     <SidebarInset>
       <AppNavbar breadcrumb={breadcrumbLinks} />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        Configurações gerais
-      </div>
+      <div className="flex flex-1 flex-col gap-4 p-4">Configurações gerais</div>
     </SidebarInset>
   )
 }

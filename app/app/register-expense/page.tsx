@@ -11,9 +11,7 @@ export default function RegisterExpensePage() {
   return (
     <SidebarInset>
       <AppNavbar breadcrumb={breadcrumbLinks} />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        Cadastrar despesa
-      </div>
+      <div className="flex flex-1 flex-col gap-4 p-4">Cadastrar despesa</div>
     </SidebarInset>
   )
 }
