@@ -35,7 +35,7 @@ export function DataTableRowColor<TData>({
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Falha ao atualizar o status do contato."
+        description: "Falha ao atualizar a cor da tag."
       })
     }
   }

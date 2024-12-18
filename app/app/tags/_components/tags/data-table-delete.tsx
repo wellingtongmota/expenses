@@ -26,7 +26,7 @@ export function DataTableDelete<TData>({ row }: DataTableDeleteProps<TData>) {
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Falha ao deletar o contato."
+        description: "Falha ao deletar a tag."
       })
     }
   }

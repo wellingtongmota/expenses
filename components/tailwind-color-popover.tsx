@@ -63,6 +63,7 @@ export function TailwindColorPopover({
 
   const handleSelectColor = () => {
     onSelectColor(selectedColor)
+    setOpen(false)
   }
 
   return (
@@ -70,7 +71,7 @@ export function TailwindColorPopover({
       <PopoverTrigger asChild>
         <div ref={ref}>{children}</div>
       </PopoverTrigger>
-      <PopoverContent className="w-full max-w-96 p-0">
+      <PopoverContent className="w-full max-w-96 p-0" side="right">
         <div className="h-full max-h-64 overflow-y-auto p-4">
           {colors.map((colorName) => (
             <div key={colorName} className="mb-4">

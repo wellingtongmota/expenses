@@ -50,6 +50,11 @@ export function DataTable({ columns, data }: DataTableProps) {
       rowSelection,
       columnFilters
     },
+    initialState: {
+      pagination: {
+        pageSize: 20 //custom default page size
+      }
+    },
     enableRowSelection: true,
     autoResetPageIndex: false,
     onRowSelectionChange: setRowSelection,
