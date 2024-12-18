@@ -51,7 +51,7 @@ export function LoginForm() {
         description: "Bem-vindo de volta!",
         variant: "default"
       })
-      router.push("/app")
+      router.refresh()
     }
   }
 
