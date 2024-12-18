@@ -36,6 +36,10 @@ const data = {
         {
           title: "Cadastrar despesa",
           url: "/app/register-expense"
+        },
+        {
+          title: "Minhas tags",
+          url: "/app/tags"
         }
       ]
     },
