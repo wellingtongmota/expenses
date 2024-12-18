@@ -1,5 +1,44 @@
 import type { Config } from "tailwindcss"
 
+const colors = [
+  "slate",
+  "gray",
+  "zinc",
+  "neutral",
+  "stone",
+  "red",
+  "orange",
+  "amber",
+  "yellow",
+  "lime",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+  "rose"
+]
+
+const shades = [
+  "50",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "950"
+]
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -8,17 +47,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   safelist: [
-    "bg-[#FF0000]",
-    "bg-[#48dbfb]",
-    "bg-[#ff9ff3]",
-    "bg-[#FF00FF]",
-    "bg-[#1dd1a1]",
-    "bg-[#ff6b6b]",
-    "bg-[#5f27cd]",
-    "bg-[#474787]",
-    "bg-[#008080]",
-    "bg-[#ff9f43]",
-    "bg-[#f6b93b]"
+    ...colors.flatMap((color) => shades.map((shade) => `bg-${color}-${shade}`))
   ],
   theme: {
     extend: {

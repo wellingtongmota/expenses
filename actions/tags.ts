@@ -51,3 +51,22 @@ export async function deleteTag(input: JustTagId) {
     data: "Tag deleted successfully"
   }
 }
+
+const JustTagIdColor = Tag.pick({ id: true, color: true })
+type JustTagIdColor = z.infer<typeof JustTagIdColor>
+
+export async function changeTagColor(input: JustTagIdColor) {
+  const contact = await prisma.tag.update({
+    where: {
+      id: input.id
+    },
+    data: {
+      color: input.color
+    }
+  })
+
+  return {
+    error: null,
+    data: contact
+  }
+}

@@ -8,38 +8,58 @@ async function main() {
     {
       name: "Alimentação",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#FF0000"
+      color: "bg-red-500"
     },
-    { name: "Moradia", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#f6b93b" },
+    {
+      name: "Moradia",
+      userId: "cm4t4i9rz0000rf44ggn90afh",
+      color: "bg-yellow-400"
+    },
     {
       name: "Transporte",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#48dbfb"
+      color: "bg-cyan-300"
     },
-    { name: "Saúde", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#ff9ff3" },
-    { name: "Educação", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#FF00FF" },
-    { name: "Lazer", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#1dd1a1" },
+    {
+      name: "Saúde",
+      userId: "cm4t4i9rz0000rf44ggn90afh",
+      color: "bg-pink-300"
+    },
+    {
+      name: "Educação",
+      userId: "cm4t4i9rz0000rf44ggn90afh",
+      color: "bg-fuchsia-500"
+    },
+    {
+      name: "Lazer",
+      userId: "cm4t4i9rz0000rf44ggn90afh",
+      color: "bg-teal-400"
+    },
     {
       name: "Financeiro",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#ff6b6b"
+      color: "bg-red-400"
     },
     {
       name: "Roupas e Acessórios",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#5f27cd"
+      color: "bg-indigo-600"
     },
     {
       name: "Tecnologia",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#474787"
+      color: "bg-indigo-800"
     },
     {
       name: "Presentes e Doações",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#008080"
+      color: "bg-teal-600"
     },
-    { name: "Outros", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#ff9f43" }
+    {
+      name: "Outros",
+      userId: "cm4t4i9rz0000rf44ggn90afh",
+      color: "bg-orange-400"
+    }
   ]
 
   for (const tag of tags) {

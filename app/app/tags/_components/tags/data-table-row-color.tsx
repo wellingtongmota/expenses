@@ -1,9 +1,12 @@
 "use client"
 
+import { changeTagColor } from "@/actions/tags"
+import { TailwindColorPopover } from "@/components/tailwind-color-popover"
 import { useToast } from "@/hooks/use-toast"
 import { Tag } from "@/schemas/database-tables"
 import { Row } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { z } from "zod"
 
 type TTag = z.infer<typeof Tag>
@@ -19,17 +22,27 @@ export function DataTableRowColor<TData>({
   const router = useRouter()
   const { toast } = useToast()
 
-  // const handleStatusContact = async (contact: TTag) => {
-  //   try {
-  //     await changeStatusContact({ id: contact.id, status: contact.status })
-  //     router.refresh()
-  //   } catch (error) {
-  //     toast({
-  //       title: "Erro",
-  //       description: "Falha ao atualizar o status do contato."
-  //     })
-  //   }
-  // }
+  const handleSelectColor = async (color: string) => {
+    try {
+      await changeTagColor({ id: tag.id, color: color })
 
-  return <div className={`size-4 rounded-full bg-[${tag.color}]`} />
+      toast({
+        title: "Sucesso",
+        description: `Cor da tag atualizada.`
+      })
+
+      router.refresh()
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Falha ao atualizar o status do contato."
+      })
+    }
+  }
+
+  return (
+    <TailwindColorPopover onSelectColor={handleSelectColor}>
+      <div className={`size-4 rounded-full ${tag.color}`} />
+    </TailwindColorPopover>
+  )
 }
