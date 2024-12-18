@@ -8,38 +8,38 @@ async function main() {
     {
       name: "Alimentação",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#FF5733"
+      color: "#FF0000"
     },
-    { name: "Moradia", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#33FF57" },
+    { name: "Moradia", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#f6b93b" },
     {
       name: "Transporte",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#3357FF"
+      color: "#48dbfb"
     },
-    { name: "Saúde", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#FF33A1" },
-    { name: "Educação", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#A133FF" },
-    { name: "Lazer", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#33FFA1" },
+    { name: "Saúde", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#ff9ff3" },
+    { name: "Educação", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#FF00FF" },
+    { name: "Lazer", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#1dd1a1" },
     {
       name: "Financeiro",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#FF8C33"
+      color: "#ff6b6b"
     },
     {
       name: "Roupas e Acessórios",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#33A1FF"
+      color: "#5f27cd"
     },
     {
       name: "Tecnologia",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#FF3333"
+      color: "#474787"
     },
     {
       name: "Presentes e Doações",
       userId: "cm4t4i9rz0000rf44ggn90afh",
-      color: "#33FF8C"
+      color: "#008080"
     },
-    { name: "Outros", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#8C33FF" }
+    { name: "Outros", userId: "cm4t4i9rz0000rf44ggn90afh", color: "#ff9f43" }
   ]
 
   for (const tag of tags) {

@@ -6,6 +6,7 @@ import { z } from "zod"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableDelete } from "./data-table-delete"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { DataTableRowColor } from "./data-table-row-color"
 
 type TTag = z.infer<typeof Tag>
 
@@ -13,7 +14,7 @@ export const columns: ColumnDef<TTag>[] = [
   {
     accessorKey: "color",
     header: "Cor",
-    cell: ({ row }) => row.getValue("color")
+    cell: ({ row }) => <DataTableRowColor row={row} />
     // filterFn: (row, id, value) => {
     //   return value.includes(row.getValue(id))
     // }
