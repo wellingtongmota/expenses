@@ -60,9 +60,13 @@ export const Authenticator = z.object({
 // Tag Model
 export const Tag = z.object({
   id: z.string().cuid(),
-  name: z.string(),
+  name: z
+    .string()
+    .min(2, { message: "A descrição deve ter no mínimo 2 caracteres" }),
   userId: z.string(),
-  color: z.string(),
+  color: z
+    .string({ required_error: "Cor é obrigatória" })
+    .min(1, "Cor é obrigatória"),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 })
