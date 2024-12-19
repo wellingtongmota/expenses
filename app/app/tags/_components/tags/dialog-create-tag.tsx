@@ -82,7 +82,7 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
                 Insira um nome e uma cor para a tag que deseja criar.
               </DialogDescription>
             </DialogHeader>
-            <div className="w-full space-y-2 py-4">
+            <div className="w-full space-y-4 py-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -111,7 +111,9 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
             </div>
             <DialogFooter>
               <Button
-                disabled={form.formState.isSubmitting}
+                disabled={
+                  form.formState.isSubmitting || !form.formState.isValid
+                }
                 type="submit"
                 variant="default"
               >

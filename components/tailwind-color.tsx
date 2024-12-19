@@ -64,7 +64,7 @@ export function TailwindColor({ value, onChange }: TailwindColorProps) {
                         <FormControl>
                           <RadioGroupItem
                             value={colorClass}
-                            className={`${colorClass}`}
+                            className={`relative h-6 w-6 rounded ${colorClass} flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-offset-1`}
                           />
                         </FormControl>
                       </FormItem>
