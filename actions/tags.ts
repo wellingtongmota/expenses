@@ -3,7 +3,6 @@
 import { auth } from "@/auth"
 import { prisma } from "@/prisma"
 import { Tag } from "@/schemas/database-tables"
-// import { prisma } from "@/services/database"
 import { z } from "zod"
 
 export async function getUserTags() {

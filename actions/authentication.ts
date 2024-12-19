@@ -2,7 +2,6 @@
 
 import { prisma } from "@/prisma"
 import { loginSchema } from "@/schemas/authentication"
-// import { prisma } from "@/services/database"
 import { z } from "zod"
 
 type TLogin = z.infer<typeof loginSchema>
