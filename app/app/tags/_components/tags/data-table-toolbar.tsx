@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
+import { CirclePlus, X } from "lucide-react"
+import { DialogCreateTag } from "./dialog-create-tag"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -26,7 +27,7 @@ export function DataTableToolbar<TData>({
           className="h-9 w-[150px] lg:w-[250px]"
         />
 
-        {/* Caso tenha filtro, exibir botão Resetar */}
+        {/* If there is a filter, display Reset button */}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -37,6 +38,16 @@ export function DataTableToolbar<TData>({
             <X className="ml-2 h-4 w-4" />
           </Button>
         )}
+      </div>
+
+      {/* Buttons on top right */}
+      <div className="flex gap-2">
+        <DialogCreateTag>
+          <Button variant="outline" size="sm">
+            <CirclePlus className="mr-2 size-4" />
+            Adicionar tag
+          </Button>
+        </DialogCreateTag>
       </div>
     </div>
   )
