@@ -1,8 +1,9 @@
 "use server"
 
 import { auth } from "@/auth"
+import { prisma } from "@/prisma"
 import { Tag } from "@/schemas/database-tables"
-import { prisma } from "@/services/database"
+// import { prisma } from "@/services/database"
 import { z } from "zod"
 
 export async function getUserTags() {
@@ -18,6 +19,30 @@ export async function getUserTags() {
   })
 
   return tags
+}
+
+const JustTagNameColor = Tag.pick({ name: true, color: true })
+type JustTagNameColor = z.infer<typeof JustTagNameColor>
+
+export async function createTag(input: JustTagNameColor) {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    return {
+      error: "Not authorized",
+      data: null
+    }
+  }
+
+  const newTag = await prisma.tag.create({
+    data: {
+      name: input.name,
+      color: input.color,
+      userId: session?.user?.id
+    }
+  })
+
+  return newTag
 }
 
 const JustTagId = Tag.pick({ id: true })

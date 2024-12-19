@@ -1,5 +1,6 @@
 "use client"
 
+import { createTag } from "@/actions/tags"
 import { TailwindColor } from "@/components/tailwind-color"
 import { Button } from "@/components/ui/button"
 import {
@@ -45,7 +46,7 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
 
   const handleCreate = async (data: JustTagNameColor) => {
     try {
-      // await createTag(data)
+      await createTag(data)
       toast({
         title: "Tag criada",
         description: (
@@ -56,6 +57,10 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
           </div>
         )
       })
+      // reseta o campo name
+      form.resetField("name")
+
+      // atualizada a página para exibir a nova tag
       router.refresh()
     } catch (error) {
       toast({
