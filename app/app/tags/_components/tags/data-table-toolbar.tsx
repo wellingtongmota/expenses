@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table } from "@tanstack/react-table"
 import { CirclePlus, X } from "lucide-react"
-import { DialogCreateTag } from "./dialog-create-tag"
+import { DialogCreateTag } from "@/components/dialog-create-tag"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>

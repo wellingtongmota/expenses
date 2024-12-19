@@ -1,12 +1,11 @@
 "use client"
 
 import { changeTagColor } from "@/actions/tags"
-import { TailwindColorPopover } from "@/components/tailwind-color-popover"
+import { PopoverTailwindColor } from "@/components/popover-tailwind-color"
 import { useToast } from "@/hooks/use-toast"
 import { Tag } from "@/schemas/database-tables"
 import { Row } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
 import { z } from "zod"
 
 type TTag = z.infer<typeof Tag>
@@ -41,8 +40,8 @@ export function DataTableRowColor<TData>({
   }
 
   return (
-    <TailwindColorPopover onSelectColor={handleSelectColor}>
+    <PopoverTailwindColor onSelectColor={handleSelectColor}>
       <div className={`size-4 rounded-full ${tag.color}`} />
-    </TailwindColorPopover>
+    </PopoverTailwindColor>
   )
 }
