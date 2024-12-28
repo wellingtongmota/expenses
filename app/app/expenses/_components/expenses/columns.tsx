@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { z } from "zod"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableDelete } from "./data-table-delete"
+import { Badge } from "@/components/ui/badge"
 
 type TExpense = z.infer<typeof ExpenseSchema>
 
@@ -78,10 +79,10 @@ export const columns: ColumnDef<TExpense>[] = [
       const tag = row.getValue("tag") as { name: string; color: string } | null
       if (!tag) return "-"
       return (
-        <div className="flex items-center gap-2">
+        <Badge className="gap-2" variant="outline">
           <div className={`size-2 rounded-full ${tag.color}`} />
           <span>{tag.name}</span>
-        </div>
+        </Badge>
       )
     }
   },
