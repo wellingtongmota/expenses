@@ -22,18 +22,37 @@ export const columns: ColumnDef<TExpense>[] = [
     header: () => <div className="text-right">Valor</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
+      const type = row.getValue("type") as string
+      const installments = row.original.installments as number
 
-      // Format the amount as a dollar amount
+      // Formatar valor como Real
       const formatted = new Intl.NumberFormat("pt-Br", {
         style: "currency",
         currency: "BRL"
       }).format(amount)
 
+      if (type === "INSTALLMENTS" && installments) {
+        const installmentValue = amount / installments
+        const formattedInstallment = new Intl.NumberFormat("pt-Br", {
+          style: "currency",
+          currency: "BRL"
+        }).format(installmentValue)
+
+        return (
+          <div className="text-right">
+            {formatted}
+            <div className="text-xs text-muted-foreground">
+              {installments}x de {formattedInstallment}
+            </div>
+          </div>
+        )
+      }
+
       return <div className="text-right">{formatted}</div>
     }
   },
   {
-    accessorKey: "dueDate", // ou qualquer que seja sua chave
+    accessorKey: "dueDate",
     header: "Vence em",
     cell: ({ row }) => {
       const date = row.getValue("dueDate") as Date
@@ -54,11 +73,11 @@ export const columns: ColumnDef<TExpense>[] = [
       return translations[type]
     }
   },
-  {
-    accessorKey: "installments",
-    header: "Parcelas",
-    cell: ({ row }) => row.getValue("installments")
-  },
+  // {
+  //   accessorKey: "installments",
+  //   header: "Parcelas",
+  //   cell: ({ row }) => row.getValue("installments")
+  // },
   {
     accessorKey: "frequency",
     header: "Frequência",
