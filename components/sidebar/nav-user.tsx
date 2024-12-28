@@ -25,6 +25,7 @@ import {
   SunMoon
 } from "lucide-react"
 import { Session } from "next-auth"
+import Link from "next/link"
 
 type NavUserProps = {
   user: Session["user"]
@@ -84,20 +85,26 @@ export function NavUser({ user }: NavUserProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Settings2 />
-                Configurações
-              </DropdownMenuItem>
+              <Link href="/app/settings">
+                <DropdownMenuItem>
+                  <Settings2 />
+                  Configurações
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <SunMoon />
-                Tema
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Plano
-              </DropdownMenuItem>
+              <Link href="/app/settings/theme">
+                <DropdownMenuItem>
+                  <SunMoon />
+                  Tema
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/app/settings/billing">
+                <DropdownMenuItem>
+                  <CreditCard />
+                  Plano
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut()}>
