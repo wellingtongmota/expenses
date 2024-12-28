@@ -28,7 +28,7 @@ export const columns: ColumnDef<TExpense>[] = [
         currency: "BRL"
       }).format(amount)
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right">{formatted}</div>
     }
   },
   {
@@ -77,7 +77,12 @@ export const columns: ColumnDef<TExpense>[] = [
     cell: ({ row }) => {
       const tag = row.getValue("tag") as { name: string; color: string } | null
       if (!tag) return "-"
-      return tag.name
+      return (
+        <div className="flex items-center gap-2">
+          <div className={`size-2 rounded-full ${tag.color}`} />
+          <span>{tag.name}</span>
+        </div>
+      )
     }
   },
   {

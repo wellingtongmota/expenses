@@ -7,10 +7,10 @@ import { DataTable } from "./_components/expenses/data-table"
 
 const breadcrumbLinks: TBreadcrumb = {
   links: [{ title: "Início", url: "/app" }],
-  page: { title: "Cadastrar despesa" }
+  page: { title: "Minhas despesas" }
 }
 
-export default async function RegisterExpensePage() {
+export default async function ExpensePage() {
   const expenses = await getUserExpenses()
 
   return (
