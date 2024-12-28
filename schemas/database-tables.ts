@@ -74,9 +74,20 @@ export const Tag = z.object({
 // Expense Model
 export const Expense = z.object({
   id: z.string().cuid(),
-  description: z.string(),
-  amount: z.number().positive(),
+  description: z
+    .string()
+    .min(2, { message: "A descrição deve ter no mínimo 2 caracteres" }),
+  amount: z.number().positive({ message: "O valor deve ser positivo" }),
   dueDate: z.date(),
+  type: z.enum(["ONE_TIME", "INSTALLMENTS", "RECURRING"], {
+    required_error: "O tipo de gasto é obrigatório"
+  }),
+  installments: z
+    .number()
+    .positive({ message: "O número de parcelas deve ser positivo" })
+    .nullable()
+    .optional(), // Apenas para gastos parcelados
+  frequency: z.enum(["MONTHLY", "YEARLY", "WEEKLY"]).nullable().optional(), // Apenas para gastos recorrentes
   createdAt: z.date().default(() => new Date()),
   userId: z.string(),
   tagId: z.string().nullable()
