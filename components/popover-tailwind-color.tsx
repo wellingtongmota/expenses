@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover"
-import { Tag } from "@/schemas/database-tables"
+import { Category } from "@/schemas/database-tables"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -19,8 +19,8 @@ type PopoverTailwindColorProps = {
   onSelectColor: (color: string) => void
 }
 
-const JustTagColor = Tag.pick({ color: true })
-type JustTagColor = z.infer<typeof JustTagColor>
+const JustCategoryColor = Category.pick({ color: true })
+type JustCategoryColor = z.infer<typeof JustCategoryColor>
 
 export function PopoverTailwindColor({
   children,
@@ -28,8 +28,8 @@ export function PopoverTailwindColor({
 }: PopoverTailwindColorProps) {
   const [open, setOpen] = useState(false)
 
-  const form = useForm<JustTagColor>({
-    resolver: zodResolver(JustTagColor),
+  const form = useForm<JustCategoryColor>({
+    resolver: zodResolver(JustCategoryColor),
     defaultValues: {
       color: ""
     }

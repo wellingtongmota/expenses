@@ -38,8 +38,8 @@ const data = {
           url: "/app/expenses"
         },
         {
-          title: "Minhas tags",
-          url: "/app/tags"
+          title: "Minhas categorias",
+          url: "/app/categories"
         }
       ]
     },

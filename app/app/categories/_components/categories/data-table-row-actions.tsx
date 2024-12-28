@@ -9,21 +9,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { Tag } from "@/schemas/database-tables"
+import { Category } from "@/schemas/database-tables"
 import { Row } from "@tanstack/react-table"
 import { Copy, MoreHorizontal } from "lucide-react"
 import { z } from "zod"
 
-type TTag = z.infer<typeof Tag>
+type TCategory = z.infer<typeof Category>
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TTag>
+  row: Row<TCategory>
 }
 
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
-  const tag = Tag.parse(row.original)
+  const category = Category.parse(row.original)
 
   return (
     <DropdownMenu>
@@ -37,7 +37,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuLabel>Ações</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(tag.name)}
+          onClick={() => navigator.clipboard.writeText(category.name)}
         >
           <Copy className="mr-2 h-4 w-4" />
           Copiar descrição

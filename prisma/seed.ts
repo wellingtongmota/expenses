@@ -4,75 +4,75 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Categorias principais
-  const tags = [
+  const categories = [
     {
       name: "Alimentação",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-red-500"
     },
     {
       name: "Moradia",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-yellow-400"
     },
     {
       name: "Transporte",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-cyan-300"
     },
     {
       name: "Saúde",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-pink-300"
     },
     {
       name: "Educação",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-fuchsia-500"
     },
     {
       name: "Lazer",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-teal-400"
     },
     {
       name: "Financeiro",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-red-400"
     },
     {
       name: "Roupas e Acessórios",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-indigo-600"
     },
     {
       name: "Tecnologia",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-indigo-800"
     },
     {
       name: "Presentes e Doações",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-teal-600"
     },
     {
       name: "Outros",
-      userId: "user-id-here",
+      userId: "cm58f31m500009jz8hf5fzb9j",
       color: "bg-orange-400"
     }
   ]
 
-  for (const tag of tags) {
-    await prisma.tag.create({
+  for (const category of categories) {
+    await prisma.category.create({
       data: {
-        name: tag.name,
-        userId: tag.userId,
-        color: tag.color
+        name: category.name,
+        userId: category.userId,
+        color: category.color
       }
     })
   }
 
-  console.log("Tags inseridas com sucesso!")
+  console.log("Categorias inseridas com sucesso!")
 }
 
 main()

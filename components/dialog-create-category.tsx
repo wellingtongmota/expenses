@@ -1,6 +1,6 @@
 "use client"
 
-import { createTag } from "@/actions/tags"
+import { createCategory } from "@/actions/categories"
 import { TailwindColor } from "@/components/tailwind-color"
 import { Button } from "@/components/ui/button"
 import {
@@ -22,33 +22,33 @@ import {
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
-import { Tag } from "@/schemas/database-tables"
+import { Category } from "@/schemas/database-tables"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { PropsWithChildren } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-const JustTagNameColor = Tag.pick({ name: true, color: true })
-type JustTagNameColor = z.infer<typeof JustTagNameColor>
+const JustCategoryNameColor = Category.pick({ name: true, color: true })
+type JustCategoryNameColor = z.infer<typeof JustCategoryNameColor>
 
-export function DialogCreateTag({ children }: PropsWithChildren) {
+export function DialogCreateCategory({ children }: PropsWithChildren) {
   const { toast } = useToast()
   const router = useRouter()
 
-  const form = useForm<JustTagNameColor>({
-    resolver: zodResolver(JustTagNameColor),
+  const form = useForm<JustCategoryNameColor>({
+    resolver: zodResolver(JustCategoryNameColor),
     defaultValues: {
       name: "",
       color: ""
     }
   })
 
-  const handleCreate = async (data: JustTagNameColor) => {
+  const handleCreate = async (data: JustCategoryNameColor) => {
     try {
-      await createTag(data)
+      await createCategory(data)
       toast({
-        title: "Tag criada",
+        title: "Categoria criada",
         description: (
           <div className="flex items-center gap-2">
             Nome: {data.name}
@@ -60,12 +60,12 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
       // reseta o campo name
       form.resetField("name")
 
-      // atualizada a página para exibir a nova tag
+      // atualizada a página para exibir a nova categoria
       router.refresh()
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Falha ao criar tag."
+        description: "Falha ao criar categoria."
       })
     }
   }
@@ -77,9 +77,9 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleCreate)}>
             <DialogHeader>
-              <DialogTitle>Criar tag</DialogTitle>
+              <DialogTitle>Criar categoria</DialogTitle>
               <DialogDescription>
-                Insira um nome e uma cor para a tag que deseja criar.
+                Insira um nome e uma cor para a categoria que deseja criar.
               </DialogDescription>
             </DialogHeader>
             <div className="w-full space-y-4 py-4">
@@ -90,7 +90,11 @@ export function DialogCreateTag({ children }: PropsWithChildren) {
                   return (
                     <FormItem>
                       <FormControl>
-                        <Input id="name" placeholder="Nome da tag" {...field} />
+                        <Input
+                          id="name"
+                          placeholder="Nome da categoria"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

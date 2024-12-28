@@ -57,8 +57,8 @@ export const Authenticator = z.object({
   transports: z.string().nullable()
 })
 
-// Tag Model
-export const Tag = z.object({
+// Category Model
+export const Category = z.object({
   id: z.string().cuid(),
   name: z
     .string()
@@ -90,5 +90,5 @@ export const Expense = z.object({
   frequency: z.enum(["MONTHLY", "YEARLY", "WEEKLY"]).nullable().optional(), // Apenas para gastos recorrentes
   createdAt: z.date().default(() => new Date()),
   userId: z.string(),
-  tagId: z.string().nullable()
+  categoryId: z.string().nullable()
 })

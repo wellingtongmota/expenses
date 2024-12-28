@@ -1,39 +1,39 @@
 "use client"
 
-import { deleteTag } from "@/actions/tags"
+import { deleteCategory } from "@/actions/categories"
 import { useToast } from "@/hooks/use-toast"
-import { Tag } from "@/schemas/database-tables"
+import { Category } from "@/schemas/database-tables"
 import { Row } from "@tanstack/react-table"
 import { Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 
-type TTag = z.infer<typeof Tag>
+type TCategory = z.infer<typeof Category>
 
 interface DataTableDeleteProps<TData> {
-  row: Row<TTag>
+  row: Row<TCategory>
 }
 
 export function DataTableDelete<TData>({ row }: DataTableDeleteProps<TData>) {
-  const tag = Tag.parse(row.original)
+  const category = Category.parse(row.original)
   const router = useRouter()
   const { toast } = useToast()
 
-  const handleDeleteTag = async (tag: TTag) => {
+  const handleDeleteCategory = async (category: TCategory) => {
     try {
-      await deleteTag({ id: tag.id })
+      await deleteCategory({ id: category.id })
       router.refresh()
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Falha ao deletar a tag."
+        description: "Falha ao deletar a category."
       })
     }
   }
 
   return (
     <Trash2
-      onClick={() => handleDeleteTag(tag)}
+      onClick={() => handleDeleteCategory(category)}
       className="h-4 w-4 cursor-pointer text-destructive hover:!text-destructive"
     />
   )

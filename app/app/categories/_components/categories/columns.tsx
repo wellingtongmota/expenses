@@ -1,6 +1,6 @@
 "use client"
 
-import { Tag } from "@/schemas/database-tables"
+import { Category } from "@/schemas/database-tables"
 import { ColumnDef } from "@tanstack/react-table"
 import { z } from "zod"
 import { DataTableColumnHeader } from "./data-table-column-header"
@@ -8,9 +8,9 @@ import { DataTableDelete } from "./data-table-delete"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowColor } from "./data-table-row-color"
 
-type TTag = z.infer<typeof Tag>
+type TCategory = z.infer<typeof Category>
 
-export const columns: ColumnDef<TTag>[] = [
+export const columns: ColumnDef<TCategory>[] = [
   {
     accessorKey: "color",
     header: "Cor",

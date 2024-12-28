@@ -22,8 +22,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tags     Tag[] // Relacionamento: um usuário pode ter várias tags
-  expenses Expense[] // Relacionamento: um usuário pode ter várias despesas
+  categories Category[] // Relacionamento: um usuário pode ter várias categorias
+  expenses   Expense[] // Relacionamento: um usuário pode ter várias despesas
 }
 
 model Account {
@@ -81,7 +81,7 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
-model Tag {
+model Category {
   id       String    @id @default(cuid())
   name     String
   userId   String // ID do usuário que criou a tag
@@ -104,11 +104,11 @@ model Expense {
   installments Int? // Número de parcelas (aplicável para gastos parcelados)
   frequency    Frequency? // Frequência de recorrência (aplicável para mensalidades)
 
-  createdAt DateTime @default(now())
-  userId    String // ID do usuário que criou o gasto
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tagId     String? // ID da tag associada ao gasto (opcional)
-  tag       Tag?     @relation(fields: [tagId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+  userId     String // ID do usuário que criou o gasto
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String? // ID da tag associada ao gasto (opcional)
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 }
 
 // Enum para tipo de gasto

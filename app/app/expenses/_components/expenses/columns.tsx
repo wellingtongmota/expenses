@@ -47,7 +47,7 @@ export const columns: ColumnDef<TExpense>[] = [
     cell: ({ row }) => {
       const type = row.getValue("type") as string
       const translations: Record<string, string> = {
-        ONE_TIME: "Único",
+        ONE_TIME: "À vista",
         INSTALLMENTS: "Parcelado",
         RECURRING: "Recorrente"
       }
@@ -73,15 +73,18 @@ export const columns: ColumnDef<TExpense>[] = [
     }
   },
   {
-    accessorKey: "tag",
+    accessorKey: "category",
     header: "Categoria",
     cell: ({ row }) => {
-      const tag = row.getValue("tag") as { name: string; color: string } | null
-      if (!tag) return "-"
+      const category = row.getValue("category") as {
+        name: string
+        color: string
+      } | null
+      if (!category) return "-"
       return (
         <Badge className="gap-2" variant="outline">
-          <div className={`size-2 rounded-full ${tag.color}`} />
-          <span>{tag.name}</span>
+          <div className={`size-2 rounded-full ${category.color}`} />
+          <span>{category.name}</span>
         </Badge>
       )
     }

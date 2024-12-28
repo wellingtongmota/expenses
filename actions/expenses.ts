@@ -24,7 +24,7 @@ export async function getUserExpenses(): Promise<
       installments: true,
       frequency: true,
       createdAt: true,
-      tag: {
+      category: {
         select: {
           color: true,
           name: true
