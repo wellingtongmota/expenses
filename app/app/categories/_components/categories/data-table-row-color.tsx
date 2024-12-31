@@ -41,7 +41,7 @@ export function DataTableRowColor<TData>({
 
   return (
     <PopoverTailwindColor onSelectColor={handleSelectColor}>
-      <div className={`size-4 rounded-full ${category.color}`} />
+      <div className={`size-4 rounded-full bg-${category.color}`} />
     </PopoverTailwindColor>
   )
 }

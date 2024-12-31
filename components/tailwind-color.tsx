@@ -58,13 +58,13 @@ export function TailwindColor({ value, onChange }: TailwindColorProps) {
                 <h3 className="mb-2 font-semibold capitalize">{colorName}</h3>
                 <div className="grid grid-cols-11 gap-1">
                   {shades.map((shade) => {
-                    const colorClass = `bg-${colorName}-${shade}`
+                    const colorClass = `${colorName}-${shade}`
                     return (
                       <FormItem key={shade}>
                         <FormControl>
                           <RadioGroupItem
                             value={colorClass}
-                            className={`relative h-6 w-6 rounded ${colorClass} flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-offset-1`}
+                            className={`relative h-6 w-6 rounded bg-${colorClass} flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-offset-1`}
                           />
                         </FormControl>
                       </FormItem>

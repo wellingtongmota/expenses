@@ -8,57 +8,57 @@ async function main() {
     {
       name: "Alimentação",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-red-500"
+      color: "red-500"
     },
     {
       name: "Moradia",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-yellow-400"
+      color: "yellow-400"
     },
     {
       name: "Transporte",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-cyan-300"
+      color: "cyan-300"
     },
     {
       name: "Saúde",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-pink-300"
+      color: "pink-300"
     },
     {
       name: "Educação",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-fuchsia-500"
+      color: "fuchsia-500"
     },
     {
       name: "Lazer",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-teal-400"
+      color: "teal-400"
     },
     {
       name: "Financeiro",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-red-400"
+      color: "red-400"
     },
     {
       name: "Roupas e Acessórios",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-indigo-600"
+      color: "indigo-600"
     },
     {
       name: "Tecnologia",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-indigo-800"
+      color: "indigo-800"
     },
     {
       name: "Presentes e Doações",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-teal-600"
+      color: "teal-600"
     },
     {
       name: "Outros",
       userId: "cm58f31m500009jz8hf5fzb9j",
-      color: "bg-orange-400"
+      color: "orange-400"
     }
   ]
 

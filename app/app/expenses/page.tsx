@@ -1,4 +1,4 @@
-import { getUserExpenses } from "@/actions/expenses"
+import { getAllUserExpenses } from "@/actions/expenses"
 import { AppNavbar } from "@/components/navbar/app-navbar"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
@@ -11,7 +11,7 @@ const breadcrumbLinks: TBreadcrumb = {
 }
 
 export default async function ExpensePage() {
-  const expenses = await getUserExpenses()
+  const expenses = await getAllUserExpenses()
 
   return (
     <SidebarInset className="overflow-x-auto">

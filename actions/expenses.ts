@@ -6,7 +6,7 @@ import { Expense } from "@/schemas/database-tables"
 import { ExpenseSchema } from "@/schemas/expenses"
 import { z } from "zod"
 
-export async function getUserExpenses(): Promise<
+export async function getAllUserExpenses(): Promise<
   z.infer<typeof ExpenseSchema>[]
 > {
   const session = await auth()
@@ -14,6 +14,48 @@ export async function getUserExpenses(): Promise<
   const expenses = await prisma.expense.findMany({
     where: {
       userId: session?.user?.id
+    },
+    select: {
+      id: true,
+      description: true,
+      amount: true,
+      dueDate: true,
+      type: true,
+      installments: true,
+      frequency: true,
+      createdAt: true,
+      category: {
+        select: {
+          color: true,
+          name: true
+        }
+      }
+    },
+    orderBy: {
+      createdAt: "desc"
+    }
+  })
+
+  return expenses
+}
+
+export async function getMonthUserExpenses(): Promise<
+  z.infer<typeof ExpenseSchema>[]
+> {
+  const session = await auth()
+
+  // Pega o primeiro e último dia do mês atual
+  const now = new Date()
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+  const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+
+  const expenses = await prisma.expense.findMany({
+    where: {
+      userId: session?.user?.id,
+      dueDate: {
+        gte: firstDayOfMonth,
+        lte: lastDayOfMonth
+      }
     },
     select: {
       id: true,

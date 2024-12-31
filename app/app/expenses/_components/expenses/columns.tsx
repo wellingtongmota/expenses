@@ -102,7 +102,7 @@ export const columns: ColumnDef<TExpense>[] = [
       if (!category) return "-"
       return (
         <Badge className="gap-2" variant="outline">
-          <div className={`size-2 rounded-full ${category.color}`} />
+          <div className={`size-2 rounded-full bg-${category.color}`} />
           <span>{category.name}</span>
         </Badge>
       )
