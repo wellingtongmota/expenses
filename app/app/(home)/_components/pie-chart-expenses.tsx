@@ -24,9 +24,17 @@ type TExpense = z.infer<typeof ExpenseSchema>
 
 type PieChartExpensesProps = {
   data: TExpense[]
+  title: string
+  subtitle: string
+  legend?: string
 }
 
-export function PieChartExpenses({ data }: PieChartExpensesProps) {
+export function PieChartExpenses({
+  data,
+  title,
+  subtitle,
+  legend
+}: PieChartExpensesProps) {
   const totalExpenses = useMemo(() => {
     return data.reduce((acc, curr) => acc + curr.amount, 0)
   }, [data])
@@ -34,7 +42,7 @@ export function PieChartExpenses({ data }: PieChartExpensesProps) {
   const chartData = useMemo(() => {
     const expensesByCategory = data.reduce(
       (acc, expense) => {
-        const categoryName = expense?.category?.name || "Indefinida"
+        const categoryName = expense?.category?.name || "Indefinido"
         const categoryColor = expense?.category?.color || "slate-500"
 
         if (categoryName) {
@@ -76,8 +84,8 @@ export function PieChartExpenses({ data }: PieChartExpensesProps) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Despesas</CardTitle>
-        <CardDescription>Mês atual</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{subtitle}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -135,11 +143,13 @@ export function PieChartExpenses({ data }: PieChartExpensesProps) {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 text-center font-medium leading-none">
-          Resumo dos gastos desse mês até o momento
-        </div>
-      </CardFooter>
+      {legend && (
+        <CardFooter className="flex-col gap-2 text-sm">
+          <div className="flex items-center gap-2 text-center font-medium leading-none">
+            {legend}
+          </div>
+        </CardFooter>
+      )}
     </Card>
   )
 }
