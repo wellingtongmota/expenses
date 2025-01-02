@@ -1,5 +1,6 @@
 import { ExpenseSchema } from "@/schemas/expenses"
 import { faker } from "@faker-js/faker"
+import { createId } from "@paralleldrive/cuid2"
 import { z } from "zod"
 
 type SubscriptionTier = "free" | "premium"
@@ -15,7 +16,7 @@ interface User {
 
 export const createRandomUsers: User[] = Array.from({ length: 200 }).map(() => {
   return {
-    id: faker.string.uuid(),
+    id: createId(),
     avatar: faker.image.avatar(),
     birthday: faker.date.birthdate(),
     email: faker.internet.email(),
@@ -36,7 +37,7 @@ export const createRandomExpenses: Expense[] = Array.from({ length: 200 }).map(
     ]) as "ONE_TIME" | "INSTALLMENTS" | "RECURRING"
 
     return {
-      id: faker.string.uuid(),
+      id: createId(),
       description: faker.commerce.product(),
       amount: Number(faker.commerce.price()),
       dueDate: faker.date.between({
