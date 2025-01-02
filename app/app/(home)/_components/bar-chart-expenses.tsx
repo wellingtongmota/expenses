@@ -18,29 +18,14 @@ import {
   ChartTooltipContent
 } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
-import { ExpenseSchema } from "@/schemas/expenses"
+import { TotalExpensesByMonthSchema } from "@/schemas/expenses"
 import { z } from "zod"
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 }
-]
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))"
-  }
-} satisfies ChartConfig
-
-type TExpense = z.infer<typeof ExpenseSchema>
+type TTotalExpensesByMonth = z.infer<typeof TotalExpensesByMonthSchema>
 
 type BarChartExpensesProps = {
   className?: string
-  data: TExpense[]
+  data: TTotalExpensesByMonth[]
   title: string
   subtitle: string
   legend?: string
@@ -53,6 +38,18 @@ export function BarChartExpenses({
   subtitle,
   legend
 }: BarChartExpensesProps) {
+  const chartData = data.map((item) => ({
+    month: item?.month || "Indefinido",
+    total: Number((item?.total || 0).toFixed(2))
+  }))
+
+  const chartConfig = {
+    total: {
+      label: "Total",
+      color: "hsl(var(--chart-1))"
+    }
+  } satisfies ChartConfig
+
   return (
     <Card className={cn("flex flex-col", className)}>
       <CardHeader>
@@ -78,8 +75,8 @@ export function BarChartExpenses({
               content={<ChartTooltipContent hideLabel />}
             />
             <Bar
-              dataKey="desktop"
-              fill="var(--color-desktop)"
+              dataKey="total"
+              fill="var(--color-total)"
               radius={8}
               label={{ position: "top" }}
             />

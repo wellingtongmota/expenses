@@ -14,6 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart"
+import { cn } from "@/lib/utils"
 import { ExpenseSchema } from "@/schemas/expenses"
 import { useMemo } from "react"
 import { Label, Pie, PieChart } from "recharts"
@@ -23,6 +24,7 @@ import { z } from "zod"
 type TExpense = z.infer<typeof ExpenseSchema>
 
 type PieChartExpensesProps = {
+  className?: string
   data: TExpense[]
   title: string
   subtitle: string
@@ -30,6 +32,7 @@ type PieChartExpensesProps = {
 }
 
 export function PieChartExpenses({
+  className,
   data,
   title,
   subtitle,
@@ -82,7 +85,7 @@ export function PieChartExpenses({
   }, [chartData])
 
   return (
-    <Card className="flex flex-col">
+    <Card className={cn("flex flex-col", className)}>
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{subtitle}</CardDescription>

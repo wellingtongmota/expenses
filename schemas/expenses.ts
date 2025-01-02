@@ -16,3 +16,10 @@ export const ExpenseSchema = z.object({
   createdAt: z.date(), // Data de criação
   category: CategorySchema.nullable() // Tag é opcional e pode ser nula
 })
+
+export const TotalExpensesByMonthSchema = z
+  .object({
+    month: z.string(),
+    total: z.number()
+  })
+  .nullable()

@@ -1,9 +1,13 @@
+import {
+  getAllUserExpenses,
+  getMonthUserExpenses,
+  getTotalExpensesByMonth
+} from "@/actions/expenses"
 import { AppNavbar } from "@/components/navbar/app-navbar"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
-import { PieChartExpenses } from "./_components/pie-chart-expenses"
-import { getAllUserExpenses, getMonthUserExpenses } from "@/actions/expenses"
 import { BarChartExpenses } from "./_components/bar-chart-expenses"
+import { PieChartExpenses } from "./_components/pie-chart-expenses"
 
 const breadcrumbLinks: TBreadcrumb = {
   page: { title: "Dashboard" }
@@ -11,7 +15,7 @@ const breadcrumbLinks: TBreadcrumb = {
 
 export default async function AppPage() {
   const monthExpenses = await getMonthUserExpenses()
-  const expenses = await getAllUserExpenses()
+  const expenses = await getTotalExpensesByMonth()
 
   // Aguardando a resolução das promessas
   const [month, all] = await Promise.all([monthExpenses, expenses])
