@@ -6,213 +6,174 @@ import { Expense } from "@/schemas/database-tables"
 import { ExpenseSchema, TotalExpensesByMonthSchema } from "@/schemas/expenses"
 import { z } from "zod"
 
-export async function getAllUserExpenses(): Promise<
-  z.infer<typeof ExpenseSchema>[]
-> {
+// Auxiliar para autenticação
+async function getAuthenticatedUserId(): Promise<string> {
   const session = await auth()
-
-  const expenses = await prisma.expense.findMany({
-    where: {
-      userId: session?.user?.id
-    },
-    select: {
-      id: true,
-      description: true,
-      amount: true,
-      dueDate: true,
-      type: true,
-      installments: true,
-      frequency: true,
-      createdAt: true,
-      category: {
-        select: {
-          color: true,
-          name: true
-        }
-      }
-    },
-    orderBy: {
-      createdAt: "desc"
-    }
-  })
-
-  return expenses
-}
-
-export async function getMonthUserExpenses(): Promise<
-  z.infer<typeof ExpenseSchema>[]
-> {
-  const session = await auth()
-
-  // Pega o primeiro e último dia do mês atual
-  const now = new Date()
-  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-  const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-
-  const expenses = await prisma.expense.findMany({
-    where: {
-      userId: session?.user?.id,
-      dueDate: {
-        gte: firstDayOfMonth,
-        lte: lastDayOfMonth
-      }
-    },
-    select: {
-      id: true,
-      description: true,
-      amount: true,
-      dueDate: true,
-      type: true,
-      installments: true,
-      frequency: true,
-      createdAt: true,
-      category: {
-        select: {
-          color: true,
-          name: true
-        }
-      }
-    },
-    orderBy: {
-      createdAt: "desc"
-    }
-  })
-
-  return expenses
-}
-
-export async function getTotalExpensesByMonth(): Promise<
-  z.infer<typeof TotalExpensesByMonthSchema>[]
-> {
-  const session = await auth()
-
   if (!session?.user?.id) {
     throw new Error("Usuário não autenticado.")
   }
+  return session.user.id
+}
+
+// Auxiliar para seleção de campos
+const expenseSelect = {
+  id: true,
+  description: true,
+  amount: true,
+  dueDate: true,
+  type: true,
+  installments: true,
+  frequency: true,
+  createdAt: true,
+  category: {
+    select: {
+      color: true,
+      name: true
+    }
+  }
+}
+
+// Auxiliar para gerar chaves de mês
+const monthNames = [
+  "jan",
+  "fev",
+  "mar",
+  "abr",
+  "mai",
+  "jun",
+  "jul",
+  "ago",
+  "set",
+  "out",
+  "nov",
+  "dez"
+]
+function getMonthKey(date: Date): string {
+  return `${monthNames[date.getMonth()]}-${date.getFullYear()}`
+}
+
+// Auxiliar para adicionar parcelas
+function addInstallments(
+  expense: z.infer<typeof ExpenseSchema>,
+  totals: Record<string, number>
+) {
+  const installmentAmount = expense.amount / expense.installments!
+  for (let i = 0; i < expense.installments!; i++) {
+    const installmentDate = new Date(expense.dueDate)
+    installmentDate.setMonth(installmentDate.getMonth() + i)
+    const key = getMonthKey(installmentDate)
+    totals[key] = (totals[key] || 0) + installmentAmount
+  }
+}
+
+// Auxiliar para adicionar mensalidades
+function addRecurring(
+  expense: z.infer<typeof ExpenseSchema>,
+  totals: Record<string, number>
+) {
+  let recurringDate = new Date(expense.dueDate)
+  while (recurringDate <= new Date()) {
+    const key = getMonthKey(recurringDate)
+    totals[key] = (totals[key] || 0) + expense.amount
+    recurringDate.setMonth(recurringDate.getMonth() + 1)
+  }
+}
+
+// Função genérica para obter despesas
+async function getUserExpenses(
+  filterByMonth = false
+): Promise<z.infer<typeof ExpenseSchema>[]> {
+  const userId = await getAuthenticatedUserId()
+  const now = new Date()
+
+  const where = filterByMonth
+    ? {
+        userId,
+        dueDate: {
+          gte: new Date(now.getFullYear(), now.getMonth(), 1),
+          lte: new Date(now.getFullYear(), now.getMonth() + 1, 0)
+        }
+      }
+    : { userId }
+
+  return prisma.expense.findMany({
+    where,
+    select: expenseSelect,
+    orderBy: { createdAt: "desc" }
+  })
+}
+
+// Obter todas as despesas do usuário
+export async function getAllUserExpenses() {
+  return getUserExpenses()
+}
+
+// Obter despesas do mês atual
+export async function getMonthUserExpenses() {
+  return getUserExpenses(true)
+}
+
+// Obter totais de despesas por mês
+export async function getTotalExpensesByMonth(): Promise<
+  z.infer<typeof TotalExpensesByMonthSchema>[]
+> {
+  const userId = await getAuthenticatedUserId()
 
   const sixMonthsAgo = new Date()
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5)
 
-  // Obter todas as despesas do usuário dos últimos seis meses
   const expenses = await prisma.expense.findMany({
     where: {
-      userId: session.user.id,
-      dueDate: {
-        gte: sixMonthsAgo // Maior ou igual a seis meses atrás
-      }
+      userId,
+      dueDate: { gte: sixMonthsAgo }
     },
-    orderBy: {
-      dueDate: "asc" // Ordenar por data de vencimento
-    }
+    orderBy: { dueDate: "asc" }
   })
 
-  // Inicializar um mapa para armazenar os totais mensais
   const totalsByMonth: Record<string, number> = {}
 
-  const monthNames = [
-    "jan",
-    "fev",
-    "mar",
-    "abr",
-    "mai",
-    "jun",
-    "jul",
-    "ago",
-    "set",
-    "out",
-    "nov",
-    "dez"
-  ]
-
-  // Iterar sobre as despesas e calcular os totais mensais
   expenses.forEach((expense) => {
-    const month = monthNames[expense.dueDate.getMonth()]
-    const baseMonth = `${month}-${expense.dueDate.getFullYear()}`
-
-    if (!totalsByMonth[baseMonth]) {
-      totalsByMonth[baseMonth] = 0
-    }
-
-    if (expense.type === "INSTALLMENTS" && expense.installments) {
-      // Parcelado: dividir o valor pelo número de parcelas
-      const installmentAmount = expense.amount / expense.installments
-
-      for (let i = 0; i < expense.installments; i++) {
-        const installmentDate = new Date(expense.dueDate)
-        installmentDate.setMonth(installmentDate.getMonth() + i)
-
-        const installmentMonth = `${monthNames[installmentDate.getMonth()]}-${installmentDate.getFullYear()}`
-
-        if (!totalsByMonth[installmentMonth]) {
-          totalsByMonth[installmentMonth] = 0
-        }
-
-        totalsByMonth[installmentMonth] += installmentAmount
-      }
+    const baseMonth = getMonthKey(expense.dueDate)
+    if (expense.type === "INSTALLMENTS") {
+      addInstallments({ ...expense, category: null }, totalsByMonth)
     } else if (
       expense.type === "RECURRING" &&
       expense.frequency === "MONTHLY"
     ) {
-      // Mensalidade: somar o valor para cada mês aplicável
-      let recurringDate = new Date(expense.dueDate)
-
-      while (recurringDate <= new Date()) {
-        const recurringMonth = `${monthNames[recurringDate.getMonth()]}-${recurringDate.getFullYear()}`
-
-        if (!totalsByMonth[recurringMonth]) {
-          totalsByMonth[recurringMonth] = 0
-        }
-
-        totalsByMonth[recurringMonth] += expense.amount
-        recurringDate.setMonth(recurringDate.getMonth() + 1)
-      }
+      addRecurring({ ...expense, category: null }, totalsByMonth)
     } else {
-      // À vista: somar o valor no mês correspondente
-      totalsByMonth[baseMonth] += expense.amount
+      totalsByMonth[baseMonth] =
+        (totalsByMonth[baseMonth] || 0) + expense.amount
     }
   })
 
-  // Retornar os últimos seis meses, garantindo a ordem correta
   const result = Array.from({ length: 6 }, (_, i) => {
     const date = new Date()
     date.setMonth(date.getMonth() - (5 - i))
-    const monthKey = `${monthNames[date.getMonth()]}-${date.getFullYear()}`
+    const monthKey = getMonthKey(date)
     return { month: monthKey, total: totalsByMonth[monthKey] || 0 }
   })
-
-  console.log(result)
 
   return result
 }
 
+// Deletar uma despesa pelo ID
 const JustExpenseId = Expense.pick({ id: true })
 type JustExpenseId = z.infer<typeof JustExpenseId>
 
 export async function deleteExpense(input: JustExpenseId) {
   const expense = await prisma.expense.findUnique({
-    where: {
-      id: input.id
-    },
-    select: {
-      id: true
-    }
+    where: { id: input.id },
+    select: { id: true }
   })
 
   if (!expense) {
-    return {
-      error: "Not found",
-      data: null
-    }
+    return { error: "Not found", data: null }
   }
 
   await prisma.expense.delete({
-    where: {
-      id: input.id
-    }
+    where: { id: input.id }
   })
 
-  return {
-    error: null,
-    data: "Expense deleted successfully"
-  }
+  return { error: null, data: "Expense deleted successfully" }
 }
