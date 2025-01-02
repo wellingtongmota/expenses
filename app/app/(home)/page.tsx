@@ -3,6 +3,7 @@ import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
 import { PieChartExpenses } from "./_components/pie-chart-expenses"
 import { getAllUserExpenses, getMonthUserExpenses } from "@/actions/expenses"
+import { BarChartExpenses } from "./_components/bar-chart-expenses"
 
 const breadcrumbLinks: TBreadcrumb = {
   page: { title: "Dashboard" }
@@ -26,13 +27,16 @@ export default async function AppPage() {
             subtitle="Despesas do mês corrente"
             legend="Distribuição das despesas do mês atual por categoria"
           />
-          <PieChartExpenses
+
+          <BarChartExpenses
+            className="lg:col-span-2"
+            title="Histórico de Despesas"
+            subtitle="Despesas dos últimos 6 meses"
+            legend="Acompanhamento mensal do total de despesas"
             data={all}
-            title="Visão Geral"
-            subtitle="Histórico completo"
-            legend="Distribuição histórica total das despesas por categoria"
           />
-          <div className="aspect-video rounded-xl bg-muted/50" />
+
+          {/* <div className="aspect-video rounded-xl bg-muted/50" /> */}
         </div>
       </div>
     </SidebarInset>
