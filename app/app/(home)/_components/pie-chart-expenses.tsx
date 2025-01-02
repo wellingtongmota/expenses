@@ -87,62 +87,70 @@ export function PieChartExpenses({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{subtitle}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="name"
-              innerRadius={60}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        {/* label com o valor do centro */}
-                        <tspan
+      {totalExpenses !== 0 && (
+        <CardContent className="flex-1 pb-0">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[250px]"
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                innerRadius={60}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className={`fill-foreground font-bold ${totalExpenses >= 1000 ? "text-base" : "text-xl"}`}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL"
-                          }).format(totalExpenses)}
-                        </tspan>
+                          {/* label com o valor do centro */}
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className={`fill-foreground font-bold ${totalExpenses >= 1000 ? "text-base" : "text-xl"}`}
+                          >
+                            {new Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL"
+                            }).format(totalExpenses)}
+                          </tspan>
 
-                        {/* label com a legenda do valor do centro */}
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Total
-                        </tspan>
-                      </text>
-                    )
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
+                          {/* label com a legenda do valor do centro */}
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Total
+                          </tspan>
+                        </text>
+                      )
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+      )}
+
+      {totalExpenses === 0 && (
+        <CardContent className="flex flex-1 items-center justify-center p-4 text-center">
+          Nenhum dado registrado
+        </CardContent>
+      )}
       {legend && (
         <CardFooter className="flex-col gap-2 text-sm">
           <div className="flex items-center gap-2 text-center font-medium leading-none">
