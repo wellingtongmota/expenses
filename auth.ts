@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { getUserFromDb } from "./actions/authentication"
-import { loginSchema } from "./schemas/authentication"
+import { LoginSchema } from "./schemas/authentication"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
@@ -27,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         let user = null
-        const { email, password } = await loginSchema.parseAsync(credentials)
+        const { email, password } = await LoginSchema.parseAsync(credentials)
 
         // logic to salt and hash password
         // const pwHash = saltAndHashPassword(credentials.password)

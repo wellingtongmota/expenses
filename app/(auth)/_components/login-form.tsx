@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
-import { loginSchema } from "@/schemas/authentication"
+import { LoginSchema } from "@/schemas/authentication"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
@@ -24,15 +24,15 @@ export function LoginForm() {
   const { toast } = useToast()
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: ""
     }
   })
 
-  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -92,12 +92,12 @@ export function LoginForm() {
                 <FormItem>
                   <div className="flex items-center">
                     <FormLabel>Senha</FormLabel>
-                    <a
-                      href="#"
+                    <Link
+                      href="/forgot-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
                       Esqueceu sua senha?
-                    </a>
+                    </Link>
                   </div>
                   <FormControl>
                     <Input id="password" type="password" {...field} />
