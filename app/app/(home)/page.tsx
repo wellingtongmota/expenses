@@ -1,8 +1,4 @@
-import {
-  getAllUserExpenses,
-  getMonthUserExpenses,
-  getTotalExpensesByMonth
-} from "@/actions/expenses"
+import { getExpensesByMonth, getMonthUserExpenses } from "@/actions/expenses"
 import { AppNavbar } from "@/components/navbar/app-navbar"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { TBreadcrumb } from "@/types"
@@ -15,7 +11,7 @@ const breadcrumbLinks: TBreadcrumb = {
 
 export default async function AppPage() {
   const monthExpenses = await getMonthUserExpenses()
-  const expenses = await getTotalExpensesByMonth()
+  const expenses = await getExpensesByMonth()
 
   // Aguardando a resolução das promessas
   const [month, all] = await Promise.all([monthExpenses, expenses])

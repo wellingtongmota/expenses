@@ -5,6 +5,16 @@ import { prisma } from "@/prisma"
 import { Expense } from "@/schemas/database-tables"
 import { ExpenseSchema, TotalExpensesByMonthSchema } from "@/schemas/expenses"
 import { z } from "zod"
+import {
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  format,
+  addMonths,
+  addWeeks,
+  differenceInMonths
+} from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 // Auxiliar para autenticação
 async function getAuthenticatedUserId(): Promise<string> {
@@ -176,4 +186,95 @@ export async function deleteExpense(input: JustExpenseId) {
   })
 
   return { error: null, data: "Expense deleted successfully" }
+}
+
+// teste
+export async function getExpensesByMonth(): Promise<
+  z.infer<typeof TotalExpensesByMonthSchema>[]
+> {
+  const userId = await getAuthenticatedUserId()
+  const now = new Date()
+  const sixMonthsAgo = subMonths(now, 6)
+
+  // Criar lista de meses no formato "MMM-yyyy" em português
+  const months = Array.from({ length: 6 }, (_, i) =>
+    format(subMonths(now, i), "MMM-yyyy", { locale: ptBR })
+  ).reverse()
+
+  const expenses = await prisma.expense.findMany({
+    where: {
+      userId,
+      dueDate: {
+        lte: endOfMonth(now)
+      }
+    }
+  })
+
+  // Processar despesas para distribuir valores corretamente
+  const monthlyTotals: Record<string, number> = {}
+
+  for (const expense of expenses) {
+    let dueDate = startOfMonth(expense.dueDate)
+    if (dueDate < startOfMonth(sixMonthsAgo)) {
+      dueDate = startOfMonth(sixMonthsAgo)
+    }
+
+    switch (expense.type) {
+      case "ONE_TIME":
+        const oneTimeMonth = format(dueDate, "MMM-yyyy", { locale: ptBR })
+        monthlyTotals[oneTimeMonth] =
+          (monthlyTotals[oneTimeMonth] || 0) + expense.amount
+        break
+
+      case "INSTALLMENTS":
+        const monthsRemaining = differenceInMonths(endOfMonth(now), dueDate) + 1
+        const numInstallments = Math.min(
+          monthsRemaining,
+          expense.installments || 0
+        )
+        const installmentAmount = expense.amount / (expense.installments || 1)
+
+        for (let i = 0; i < numInstallments; i++) {
+          const month = format(addMonths(dueDate, i), "MMM-yyyy", {
+            locale: ptBR
+          })
+          monthlyTotals[month] = (monthlyTotals[month] || 0) + installmentAmount
+        }
+        break
+
+      case "RECURRING":
+        let recurringDate = dueDate
+        const step =
+          expense.frequency === "WEEKLY"
+            ? addWeeks
+            : expense.frequency === "YEARLY"
+              ? addMonths
+              : addMonths
+
+        const stepValue =
+          expense.frequency === "WEEKLY"
+            ? 1
+            : expense.frequency === "YEARLY"
+              ? 12
+              : 1
+
+        while (recurringDate <= endOfMonth(now)) {
+          const recurringMonth = format(recurringDate, "MMM-yyyy", {
+            locale: ptBR
+          })
+          monthlyTotals[recurringMonth] =
+            (monthlyTotals[recurringMonth] || 0) + expense.amount
+          recurringDate = step(recurringDate, stepValue)
+        }
+        break
+    }
+  }
+
+  // Garantir que todos os meses dos últimos 6 meses estão no resultado
+  const formattedResults = months.map((month) => ({
+    month,
+    total: monthlyTotals[month] || 0
+  }))
+
+  return formattedResults
 }
