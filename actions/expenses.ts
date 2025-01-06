@@ -124,71 +124,6 @@ export async function getMonthUserExpenses() {
 }
 
 // Obter totais de despesas por mês
-export async function getTotalExpensesByMonth(): Promise<
-  z.infer<typeof TotalExpensesByMonthSchema>[]
-> {
-  const userId = await getAuthenticatedUserId()
-
-  const sixMonthsAgo = new Date()
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5)
-
-  const expenses = await prisma.expense.findMany({
-    where: {
-      userId,
-      dueDate: { gte: sixMonthsAgo }
-    },
-    orderBy: { dueDate: "asc" }
-  })
-
-  const totalsByMonth: Record<string, number> = {}
-
-  expenses.forEach((expense) => {
-    const baseMonth = getMonthKey(expense.dueDate)
-    if (expense.type === "INSTALLMENTS") {
-      addInstallments({ ...expense, category: null }, totalsByMonth)
-    } else if (
-      expense.type === "RECURRING" &&
-      expense.frequency === "MONTHLY"
-    ) {
-      addRecurring({ ...expense, category: null }, totalsByMonth)
-    } else {
-      totalsByMonth[baseMonth] =
-        (totalsByMonth[baseMonth] || 0) + expense.amount
-    }
-  })
-
-  const result = Array.from({ length: 6 }, (_, i) => {
-    const date = new Date()
-    date.setMonth(date.getMonth() - (5 - i))
-    const monthKey = getMonthKey(date)
-    return { month: monthKey, total: totalsByMonth[monthKey] || 0 }
-  })
-
-  return result
-}
-
-// Deletar uma despesa pelo ID
-const JustExpenseId = Expense.pick({ id: true })
-type JustExpenseId = z.infer<typeof JustExpenseId>
-
-export async function deleteExpense(input: JustExpenseId) {
-  const expense = await prisma.expense.findUnique({
-    where: { id: input.id },
-    select: { id: true }
-  })
-
-  if (!expense) {
-    return { error: "Not found", data: null }
-  }
-
-  await prisma.expense.delete({
-    where: { id: input.id }
-  })
-
-  return { error: null, data: "Expense deleted successfully" }
-}
-
-// teste
 export async function getExpensesByMonth(): Promise<
   z.infer<typeof TotalExpensesByMonthSchema>[]
 > {
@@ -277,4 +212,25 @@ export async function getExpensesByMonth(): Promise<
   }))
 
   return formattedResults
+}
+
+// Deletar uma despesa pelo ID
+const JustExpenseId = Expense.pick({ id: true })
+type JustExpenseId = z.infer<typeof JustExpenseId>
+
+export async function deleteExpense(input: JustExpenseId) {
+  const expense = await prisma.expense.findUnique({
+    where: { id: input.id },
+    select: { id: true }
+  })
+
+  if (!expense) {
+    return { error: "Not found", data: null }
+  }
+
+  await prisma.expense.delete({
+    where: { id: input.id }
+  })
+
+  return { error: null, data: "Expense deleted successfully" }
 }
